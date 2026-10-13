@@ -53,3 +53,23 @@ Hash de super informado pelo comando no aparelho; os demais calculados a partir 
 ## Organização
 
 Scripts, documentação e alterações de código serão versionados em Git. Binários grandes poderão ser associados a Releases após conferência do conteúdo e das condições de distribuição. Não publicar identificadores pessoais, credenciais ou partições EFS/NV. Arquivos de outras variantes não são automaticamente compatíveis com A032M/S7.
+
+## Objetivo público e reprodução
+
+Este repositório pretende permitir que outras pessoas reproduzam a customização, com créditos aos projetos originais, scripts de preparação, versões das ferramentas, hashes, instruções de recuperação e resultados de testes. Compatibilidade será registrada por modelo e firmware; não se presume suporte a qualquer A03 Core.
+
+Estado: preparação experimental. Ainda não existe pacote novo validado para instalação. Não seguir esta documentação como um tutorial de flash concluído.
+
+### Download escolhido
+
+- Mantenedor original: naz664.
+- Release: https://github.com/naz664/crDroid_gsi/releases/tag/v2025.03.08
+- Arquivo: crDroid-10.13-a64_bvN-Unofficial.img.xz
+- Download: https://github.com/naz664/crDroid_gsi/releases/download/v2025.03.08/crDroid-10.13-a64_bvN-Unofficial.img.xz
+- Tamanho comprimido informado pela API da release: 779310104 bytes.
+- Variante a64 (ARM32/Binder64), Vanilla, sem superuser PHH. Não confundir com arm64.
+- Hash do download, tamanho descompactado e validação de inicialização ainda pendentes.
+
+### Primeira etapa no Windows
+
+Baixar o arquivo original, guardar os backups separadamente e extrair o .xz com 7-Zip (https://www.7-zip.org/). A saída deve ser uma imagem .img. Não gravar antes de verificar tamanho, conteúdo e pacote preparado para o firmware de destino.
