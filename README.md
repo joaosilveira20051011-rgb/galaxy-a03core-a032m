@@ -6,6 +6,8 @@ Projeto experimental para SM-A032M, firmware **A032MUBS7CZA5 / bootloader S7**, 
 
 ## Comece aqui
 
+**[Tutorial de instalação da GSI com bootloader desbloqueado](docs/TUTORIAL-GSI-BOOTLOADER-DESBLOQUEADO.md)** — inclui backup, extração, hashes, montagem de super, Odin e recuperação. Requer ambiente compatível e root para a rota de backup documentada; não homologa instalação a partir de qualquer sistema Samsung original.
+
 1. [Guia público e downloads](docs/GUIA-PUBLICO-A03CORE.md).
 2. [Tutorial do kernel de referência](docs/TUTORIAL_A03CORE_STOCK_v0.1.txt).
 3. [Tutorial do OC2 térmico](docs/TUTORIAL-OC2-THERMAL.md).
