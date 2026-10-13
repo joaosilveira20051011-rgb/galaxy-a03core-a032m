@@ -1,0 +1,82 @@
+diff --git a/arch/arm64/boot/dts/sprd/sc9863a.dtsi b/arch/arm64/boot/dts/sprd/sc9863a.dtsi
+index 441251d..be5c0f7 100755
+--- a/arch/arm64/boot/dts/sprd/sc9863a.dtsi
++++ b/arch/arm64/boot/dts/sprd/sc9863a.dtsi
+@@ -256,7 +256,7 @@
+ 				768000	900000>;
+ 			operating-points-2 = <
+ 				/* kHz	uV */
+-				1200000	1100000
++				1400000	1150000
+ 				1100000	1056250
+ 				1000000	1009375
+ 				884000	953125
+@@ -322,7 +322,7 @@
+ 				768000	900000>;
+ 			operating-points-1 = <
+ 				/* kHz	uV */
+-				1600000	1050000
++				1800000	1100000
+ 				1500000	1015625
+ 				1400000	978125
+ 				1225000	915625
+@@ -394,7 +394,7 @@
+ 				768000	900000>;
+ 			operating-points-1 = <
+ 				/* kHz	uV */
+-				1250000	1050000
++				1250000	1100000
+ 				1172000	1015625
+ 				1095000	978125
+ 				959000	915625
+@@ -1103,6 +1103,9 @@
+ };
+ 
+ &gpu {
++	/* OC1: program the parent selected by PowerVR DVFS index 9. */
++	assigned-clocks = <&pll CLK_GPLL>;
++	assigned-clock-rates = <600000000>;
+ 	clocks = <&aonapb_gate CLK_GNU_EB>,
+ 	<&aon_clk CLK_GPU_CORE>,<&aon_clk CLK_GPU_SOC>,
+ 	<&pll CLK_TWPLL_153M6>, <&pll CLK_TWPLL_192M>,
+diff --git a/arch/arm64/boot/dts/sprd/sharkl3.dtsi b/arch/arm64/boot/dts/sprd/sharkl3.dtsi
+index 7ed92f3..c6fd1ab 100755
+--- a/arch/arm64/boot/dts/sprd/sharkl3.dtsi
++++ b/arch/arm64/boot/dts/sprd/sharkl3.dtsi
+@@ -1021,14 +1021,14 @@
+ 				/* kHz    uV */
+ 				256000    0
+ 				384000    0
+-				550000    0
++				600000    0
+ 				>;
+ 
+ 			sprd,dvfs-lists = <
+ 				/* kHz  uV  idx div */
+ 				256000  0    5   1
+ 				384000  0    7   1
+-				550000  0    9   1
++				600000  0    9   1
+ 				>;
+ 
+ 			sprd,dvfs-default = <0>;
+diff --git a/drivers/clk/sprd/pll.c b/drivers/clk/sprd/pll.c
+index acd047b..0652a5a 100755
+--- a/drivers/clk/sprd/pll.c
++++ b/drivers/clk/sprd/pll.c
+@@ -258,8 +258,14 @@ static int sprd_pll_set_rate(struct clk_hw *hw,
+ 			     unsigned long parent_rate)
+ {
+ 	struct sprd_pll *pll = hw_to_sprd_pll(hw);
++	int ret;
+ 
+-	return _sprd_pll_set_rate(pll, rate, parent_rate);
++	ret = _sprd_pll_set_rate(pll, rate, parent_rate);
++	/* Register-derived readback, not an independent frequency measurement. */
++	if (!strcmp(clk_hw_get_name(hw), "gpll") && rate == 600000000UL)
++		pr_info("A03CORE_OC1 GPLL requested=%lu register_rate=%lu ret=%d\n",
++			rate, _sprd_pll_recalc_rate(pll, parent_rate), ret);
++	return ret;
+ }
+ 
+ static int sprd_pll_clk_prepare(struct clk_hw *hw)
