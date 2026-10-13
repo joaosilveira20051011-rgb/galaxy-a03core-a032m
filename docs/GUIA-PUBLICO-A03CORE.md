@@ -15,7 +15,7 @@ Com vários aparelhos, usar adb -s SERIAL_DO_A03 em cada comando, substituindo o
 ## Downloads e caminhos
 | Componente | Onde obter | Estado |
 |---|---|---|
-| Kernel referência | [Release stock-baseline-v0.1](../releases/tag/stock-baseline-v0.1) | ZIP publicado, boot confirmado |
+| Kernel referência | [Release stock-baseline-v0.1](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/tag/stock-baseline-v0.1) | ZIP publicado, boot confirmado |
 | OC1 | [Lista de Releases](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases) | ZIP produzido, ainda não anexado |
 | OC2 térmico | [Lista de Releases](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases) | ZIP produzido e boot confirmado, ainda não anexado |
 | GSI | [Release naz664](https://github.com/naz664/crDroid_gsi/releases/tag/v2025.03.08) | Usar crDroid-10.13-a64_bvN-Unofficial.img.xz |
