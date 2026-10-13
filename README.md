@@ -1,5 +1,7 @@
 # Galaxy A03 Core SM-A032M — crDroid e kernel próprio
 
+**Comunidade no Telegram:** [A03 Core Brasil | GSI & Kernel](https://t.me/A03CoreBrasilGSIKernel/1) — tutoriais, downloads e suporte ao projeto.
+
 Projeto experimental para SM-A032M, firmware **A032MUBS7CZA5 / bootloader S7**, SoC Unisoc SC9863A. O objetivo é documentar uma customização reproduzível, com fontes, patches, arquivos conferidos e resultados reais. Não se presume compatibilidade com SM-A032F, SM-A035, outros firmwares ou ROMs.
 
 ## Comece aqui
