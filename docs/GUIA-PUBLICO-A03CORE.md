@@ -17,7 +17,7 @@ Com vários aparelhos, usar adb -s SERIAL_DO_A03 em cada comando, substituindo o
 |---|---|---|
 | Kernel referência | [Release stock-baseline-v0.1](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/tag/stock-baseline-v0.1) | ZIP publicado, boot confirmado |
 | OC1 | [Lista de Releases](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases) | ZIP produzido, ainda não anexado |
-| OC2 térmico | [Lista de Releases](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases) | ZIP produzido e boot confirmado, ainda não anexado |
+| OC2 térmico | [Download ZIP](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/download/stock-baseline-v0.1/a03core-OC2-thermal-55-60-experimental.1.zip) | Publicado; boot confirmado; validação térmica prolongada pendente |
 | GSI | [Release naz664](https://github.com/naz664/crDroid_gsi/releases/tag/v2025.03.08) | Usar crDroid-10.13-a64_bvN-Unofficial.img.xz |
 | Platform-tools | [Android Developers](https://developer.android.com/tools/releases/platform-tools) | Ferramentas ADB para Windows |
 | 7-Zip | [Site oficial](https://www.7-zip.org/) | Extração de .xz |
@@ -41,4 +41,4 @@ O responsável deve anexar os ZIPs originais, sem recompactar, em Releases exper
 ## Suporte
 Informar modelo/vendor, firmware, ROM, versão do pacote, erro exato e logs sanitizados. Remover serial/IMEI/contas antes de publicar. Não enviar EFS, NV ou credenciais.
 
-Telegram: aguardando link do grupo para integrar à página.
+Telegram: https://t.me/A03CoreBrasilGSIKernel/1
