@@ -1,0 +1,21 @@
+# Tarefas da referência S7
+
+- [ ] Obter base oficial completa e verificar CRC/tamanho/hash.
+  - Aceitação: arquivo completo e README/base identificados.
+- [x] Obter e inspecionar atualização oficial que lista CZA5.
+  - Verificação: CRC passou; instruções e quatro arquivos do delta examinados.
+- [ ] Obter toolchains prescritas e executar --version.
+  - Aceitação: versões reais e dependências de host registradas.
+- [ ] Preparar árvore limpa + atualização oficial.
+  - Aceitação: manifest das fontes e diff registrado; nenhum OC.
+- [ ] Gerar configuração e comparar com o IKCONFIG original.
+  - Aceitação: divergências classificadas; ARM64/COMPAT/MODVERSIONS preservados.
+- [ ] Compilar Image, vmlinux, módulos e DTs necessários.
+  - Verificação: make exit 0 e log integral.
+- [ ] Inspecionar ABI, módulos, warnings e artefatos.
+  - Verificação: readelf, Module.symvers, hashes e relatório.
+- [ ] Preparar boot de referência e pacote de retorno.
+  - Verificação: parser de header/componentes, tamanho da partição e hashes.
+- [ ] Entregar referência para autorização de instalação e teste físico.
+  - Aceitação: boot e funções separados de estabilidade prolongada.
+- [ ] Somente depois investigar as metas experimentais 1,8/1,4 GHz e GPU 600 MHz.
