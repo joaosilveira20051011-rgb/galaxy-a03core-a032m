@@ -6,6 +6,9 @@ Projeto experimental para SM-A032M, firmware **A032MUBS7CZA5 / bootloader S7**, 
 
 ## Comece aqui
 
+**[Central de downloads, tutoriais e recuperação](docs/CENTRAL-DOWNLOADS-E-INSTALACOES.md)** — índice atual com hashes, GSI na Release, kernels, memória, GApps, ferramentas e lacunas verificadas.
+
+
 **[Tutorial de instalação da GSI com bootloader desbloqueado](docs/TUTORIAL-GSI-BOOTLOADER-DESBLOQUEADO.md)** — inclui backup, extração, hashes, montagem de super, Odin e recuperação. Requer ambiente compatível e root para a rota de backup documentada; não homologa instalação a partir de qualquer sistema Samsung original.
 
 1. [Guia público e downloads](docs/GUIA-PUBLICO-A03CORE.md).
@@ -39,9 +42,9 @@ O resultado AnTuTu é um relato de uma execução. Não demonstra ganho percentu
 
 - [Kernel de referência stock-baseline-v0.1](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/tag/stock-baseline-v0.1): contém ZIP e tutorial.
 - [OC2 térmico — download público](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/download/stock-baseline-v0.1/a03core-OC2-thermal-55-60-experimental.1.zip): ZIP publicado na Release existente. O arquivo termina em `.1.zip`; SHA-256 conferido: `6889c22a7dd028cf455e445fec1ebfcc0b7b4eb66b823a09ce75f01977e35dda`.
-- OC1: pacote separado ainda não anexado; o OC2 inclui o AP de restauração do OC1 da referência.
-- [GSI original crDroid 10.13 a64 Vanilla](https://github.com/naz664/crDroid_gsi/releases/download/v2025.03.08/crDroid-10.13-a64_bvN-Unofficial.img.xz), do mantenedor naz664.
-- [LiteGapps Core ARM Android 14](https://downloads.sourceforge.net/project/litegapps/litegapps/arm/34/core/2026-10-01/LiteGapps-core-arm-14.0-20261001-official.zip): link corrigido e abertura do ZIP verificada; instalação/funcionamento no A03 não confirmados.
+- [OC1 histórico: download do AP dentro do OC2 e tutorial](docs/TUTORIAL-OC1-HISTORICO.md). Pacote ZIP separado ainda não anexado.
+- [GSI na Release do projeto](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/download/stock-baseline-v0.1/crDroid-10.13-a64_bvN-Unofficial.img.xz). [GSI original crDroid 10.13 a64 Vanilla](https://github.com/naz664/crDroid_gsi/releases/download/v2025.03.08/crDroid-10.13-a64_bvN-Unofficial.img.xz), do mantenedor naz664.
+- [LiteGapps Core ARM Android 14](https://downloads.sourceforge.net/project/litegapps/litegapps/arm/34/core/2026-10-01/LiteGapps-core-arm-14.0-20261001-official.zip): ZIP completo/CRC e SHA-256 conferidos; módulo instalado e processos presentes. [Tutorial Magisk e reversão](docs/TUTORIAL-GAPPS-LITEGAPPS-ARM14.md). Login/sincronização completa não auditados.
 
 **a64 significa ARM32/Binder64**, não arm64. O sistema usa armeabi-v7a/armeabi; kernel AArch64 com COMPAT.
 
