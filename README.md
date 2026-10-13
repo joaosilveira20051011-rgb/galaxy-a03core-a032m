@@ -1,3 +1,5 @@
+> **Atualização posterior — 2026-10-13:** a base oficial foi obtida e verificada; o kernel stock foi realmente compilado. Configuração idêntica e251 CRCs dos cinco módulos do vendor correspondentes. Pacote experimental de boot preparado, teste físico pendente. O boot enviado **contém rodapé AVBf**, preservado com a condição de hash já existente no boot Magisk. [Resultado e limitações](./docs/kernel-stock-compilado-2026-10-13.md). As menções abaixo a download/compilação pendentes registram a etapa anterior e foram superadas por esse relatório.
+
 # Galaxy A03 Core — A032M S7
 
 Projeto experimental de customização do Galaxy A03 Core SM-A032M S7. A crDroid 10.13 a64 Vanilla iniciou após restaurar o vbmeta original; o proprietário relatou funcionamento normal dos testes básicos. A próxima etapa é compilar um kernel próprio a partir das fontes compatíveis.
