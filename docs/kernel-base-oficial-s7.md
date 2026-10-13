@@ -1,3 +1,5 @@
+> **Atualização posterior — 2026-10-13:** a base oficial foi obtida e verificada; o kernel stock foi realmente compilado. Configuração idêntica e251 CRCs dos cinco módulos do vendor correspondentes. Pacote experimental de boot preparado, teste físico pendente. O boot enviado **contém rodapé AVBf**, preservado com a condição de hash já existente no boot Magisk. [Resultado e limitações](./kernel-stock-compilado-2026-10-13.md). As menções abaixo a download/compilação pendentes registram a etapa anterior e foram superadas por esse relatório.
+
 # Kernel próprio — base oficial identificada
 
 Consulta efetiva ao Samsung Open Source Release Center em 2026-10-13:
