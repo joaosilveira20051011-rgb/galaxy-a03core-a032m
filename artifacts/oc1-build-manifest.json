@@ -1,0 +1,55 @@
+{
+  "device": "SM-A032M",
+  "firmware": "A032MUBS7CZA5",
+  "soc": "SC9863A",
+  "rom": "crDroid 10.13 a64 Vanilla (owner installed)",
+  "baseline_source_commit": "55c683ece03dc8ccb4f6a20a4efd3fd2e779d048",
+  "oc_source_commit": "6eaf404d7fe084c95926d89cefd7b570da2933b6",
+  "source_commits_scope": "Local source repository; patch provided for official source plus S7 update. Not claimed published full source tree.",
+  "source_base_sha256": "781c9f7108447e986074240caafae82dde605f36620140e2dc5a47359b1dcc43",
+  "source_s7_update_sha256": "acd5a4cdf9e0c74db317b6fa7838346a8652e70a53478f42839a914e0e4f4650",
+  "toolchain": "AOSP clang-r383902 11.0.1",
+  "clang_archive_sha256": "3f11ebf749e48ea57b0a350468fc3396a87a183c942a6bf8f8d993dc34369eb3",
+  "binutils_archive_sha256": "78759360d7adb52abae1612125dcc2b5a065e5c9ec3457a4163fa85867d7ae9d",
+  "targets": {
+    "cpu0_3_khz": 1400000,
+    "cpu4_7_khz": 1800000,
+    "gpu_hz": 600000000,
+    "scu_khz": 1250000
+  },
+  "normal_requested_microvolt": {
+    "slow_bin2": 1150000,
+    "fast_bin1": 1100000,
+    "scu_bin1": 1100000,
+    "gpu": "original; no demonstrated control in supplied module"
+  },
+  "voltage_characterization": "Experimental +50000 microvolt CPU requests; no measured stability or physical voltage guarantee.",
+  "configuration_identical_to_reference": true,
+  "build_exit_code": 0,
+  "attempts": [
+    {
+      "attempt": 1,
+      "result": "failed: kheaders tar directory changed while being read"
+    },
+    {
+      "attempt": 2,
+      "result": "completed without disabling archive checks"
+    }
+  ],
+  "module_count": 28,
+  "module_crc_import_entries": 2064,
+  "module_crc_mismatches": 0,
+  "module_crc_missing": 0,
+  "hardware_boot_tested": false,
+  "functional_tests": false,
+  "stability_tests": false,
+  "performance_tests": false,
+  "known_limits": [
+    "PowerVR requests parent changes; existing binary does not propagate clock errors.",
+    "GPU register-derived PLL readback is not independent frequency measurement or lock validation.",
+    "CPU hardware DVFS set path is asynchronous; successful enqueue is not proof of completed transition.",
+    "No new automatic rollback/quarantine implemented.",
+    "Existing Magisk boot AVB descriptor was already mismatched; no new vendor signature.",
+    "Stock hot tables are preserved; physical hot/cold transitions require validation."
+  ]
+}
