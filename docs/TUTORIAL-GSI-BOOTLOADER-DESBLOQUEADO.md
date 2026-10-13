@@ -14,7 +14,7 @@ A montagem abaixo é estritamente conferida contra as entradas usadas no projeto
 
 - Windows com platform-tools, 7-Zip, driver Samsung e Odin reconhecendo o aparelho.
 - WSL com Linux x86_64 configurado, curl, sha256sum, Python 3 e ferramentas GNU. Instalar WSL não é instalar a ROM.
-- Reservar pelo menos **20 GB livres no computador** para backups, extração, imagens de conferência e TARs.
+- Reservar pelo menos **30 GB livres no computador** para backups, extração, imagens de conferência e TARs.
 - Backup dos dados pessoais fora do telefone e rota de Download Mode/recuperação já confirmada.
 - Firmware oficial correspondente disponível para recuperação do próprio aparelho.
 
@@ -188,7 +188,37 @@ certutil -hashfile "%USERPROFILE%\Downloads\A03_GSI\AP_crDroid_10.13_A032M_S7_SU
 
 A listagem deve conter **somente super.img**. Não renomear a GSI bruta para .tar.
 
-Preparar também um TAR de restauração do próprio super_antes.img sob o nome interno super.img, conservando o backup original e conferindo o conteúdo. Sem restauração pronta, não avançar.
+Preparar a restauração no Linux/WSL, na mesma pasta:
+
+```bash
+python3 - <<'PY'
+import hashlib, tarfile
+from pathlib import Path
+src = Path("super_antes.img")
+out = Path("AP_RESTAURAR_SEU_SUPER.tar")
+assert src.stat().st_size == 3303014400
+assert not out.exists(), "Saida existente; conservar/mover antes de repetir."
+def sha(stream):
+    d = hashlib.sha256()
+    for b in iter(lambda: stream.read(1048576), b""):
+        d.update(b)
+    return d.hexdigest()
+with src.open("rb") as f:
+    original = sha(f)
+with tarfile.open(out, "w", format=tarfile.USTAR_FORMAT) as tar:
+    info = tarfile.TarInfo("super.img")
+    info.size = src.stat().st_size
+    info.mode = 0o644
+    with src.open("rb") as f:
+        tar.addfile(info, f)
+with tarfile.open(out, "r:") as tar:
+    assert tar.getnames() == ["super.img"]
+    assert sha(tar.extractfile("super.img")) == original
+print("Restauracao conferida; SHA256 do super original:", original)
+PY
+```
+
+Conservar super_antes.img e AP_RESTAURAR_SEU_SUPER.tar fora do telefone. Sem restauração pronta, não avançar.
 
 ## 8. Instalar pelo Odin — ambiente compatível
 
