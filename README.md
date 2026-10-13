@@ -30,7 +30,8 @@ O resultado AnTuTu é um relato de uma execução. Não demonstra ganho percentu
 ## Downloads
 
 - [Kernel de referência stock-baseline-v0.1](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/tag/stock-baseline-v0.1): contém ZIP e tutorial.
-- OC1 e OC2: artefatos reais produzidos e entregues ao proprietário; **ainda aguardam anexação às Releases deste GitHub**. Não existem links públicos de download confirmados para eles nesta atualização.
+- [OC2 térmico — download público](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/download/stock-baseline-v0.1/a03core-OC2-thermal-55-60-experimental.1.zip): ZIP publicado na Release existente. O arquivo termina em `.1.zip`; SHA-256 conferido: `6889c22a7dd028cf455e445fec1ebfcc0b7b4eb66b823a09ce75f01977e35dda`.
+- OC1: pacote separado ainda não anexado; o OC2 inclui o AP de restauração do OC1 da referência.
 - [GSI original crDroid 10.13 a64 Vanilla](https://github.com/naz664/crDroid_gsi/releases/download/v2025.03.08/crDroid-10.13-a64_bvN-Unofficial.img.xz), do mantenedor naz664.
 - [LiteGapps Core ARM Android 14](https://downloads.sourceforge.net/project/litegapps/litegapps/arm/34/core/2026-10-01/LiteGapps-core-arm-14.0-20261001-official.zip): link corrigido e abertura do ZIP verificada; instalação/funcionamento no A03 não confirmados.
 
@@ -69,7 +70,7 @@ Não publicar serial, IMEI, credenciais, EFS/NV nem backups pessoais. O TAR de r
 
 ## Telegram
 
-Grupo de suporte em preparação. O link ainda não foi informado para publicação. Não há confirmação de postagem no Telegram nesta atualização.
+[A03 Core Brasil | GSI & Kernel](https://t.me/A03CoreBrasilGSIKernel/1). Guia inicial publicado no tópico Comece aqui.
 
 ## Créditos
 
