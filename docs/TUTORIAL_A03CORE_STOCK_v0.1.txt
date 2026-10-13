@@ -1,0 +1,285 @@
+GALAXY A03 CORE SM-A032M
+GUIA DA RELEASE — KERNEL DE REFERÊNCIA S7 v0.1
+Atualizado em 13/10/2026
+
+PÚBLICO E OBJETIVO
+Este guia é para quem conhece o básico de ADB, Odin e instalação de GSI.
+Explica a instalação do kernel de referência publicado e os requisitos para
+reproduzir o ambiente do projeto. Não existe, nesta Release, um instalador
+completo da GSI partindo do firmware original.
+
+1. O QUE FOI REALMENTE TESTADO
+
+Aparelho: Samsung Galaxy A03 Core SM-A032M, codinome a3core.
+Firmware de referência: A032MUBS7CZA5, revisão de bootloader S7.
+Sistema: crDroid 10.13 GSI a64_bvN Vanilla, Android 14.
+Root: Magisk, ramdisk preservado do boot usado no projeto.
+Kernel: Linux 4.14.199 recompilado das fontes oficiais correspondentes.
+Frequências/tensões: originais; não há overclock nesta versão.
+
+O proprietário confirmou inicialização bem-sucedida. A saída ADB confirmou
+o kernel recompilado, root e módulos carregados.
+Testes completos de funcionalidades e estabilidade prolongada ainda não
+foram registrados para esta recompilação. Não interpretar a inicialização
+como garantia de ausência de bugs.
+
+A compatibilidade testada não se estende automaticamente a SM-A032F,
+SM-A035 (Galaxy A03), outras revisões de firmware ou outras ROMs.
+SM-A032F também é uma variante do A03 Core; identificação de modelo dentro
+de uma GSI pode diferir do hardware. Conferir vendor/bootloader.
+
+2. ARQUIVOS E LINKS
+
+Projeto:
+https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m
+
+Release do kernel:
+https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/tag/stock-baseline-v0.1
+
+Pacote a baixar nos Assets:
+a03core-stock-baseline-20261013.zip
+
+SHA-256 do ZIP:
+f86c440e9321d362c22352bc4417b568a447ca5833d96f9d33b8a993567fb57f
+
+GSI original — Release do desenvolvedor:
+https://github.com/naz664/crDroid_gsi/releases/tag/v2025.03.08
+
+GSI utilizada — download:
+https://github.com/naz664/crDroid_gsi/releases/download/v2025.03.08/crDroid-10.13-a64_bvN-Unofficial.img.xz
+
+SHA-256 da GSI EXTRAÍDA (.img), não do arquivo .xz:
+ae15ae5541e51509e574eab7cf6c71cae60d5a69483816a7f8773579c729d1d6
+Tamanho da .img: 2089295872 bytes.
+
+Android platform-tools para Windows:
+https://developer.android.com/tools/releases/platform-tools
+
+7-Zip:
+https://www.7-zip.org/
+
+Fontes oficiais Samsung:
+https://opensource.samsung.com/uploadSearch?searchValue=SM-A032M
+
+Relatório técnico do build:
+https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/blob/main/docs/kernel-stock-compilado-2026-10-13.md
+
+Confirmação de execução no aparelho:
+https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/blob/main/docs/kernel-stock-boot-confirmado-2026-10-13.md
+
+Odin não está incluído no ZIP. O projeto usou Odin3 v3.14 no Windows.
+Não há, neste guia, link de download do Odin cuja procedência tenha sido
+verificada. Use a instalação que já funciona com o aparelho.
+Os arquivos "Source code" automáticos do GitHub não substituem o ZIP dos Assets.
+
+3. REQUISITOS PARA INSTALAR ESTE PACOTE DE KERNEL
+
+- SM-A032M no ambiente de firmware S7CZA5 correspondente.
+- Bootloader desbloqueado. Root e desbloqueio são condições diferentes.
+- Preferencialmente o ambiente testado: crDroid 10.13 a64 Vanilla.
+- Windows com Odin funcionando, driver Samsung e cabo de dados confiável.
+- Acesso confirmado ao Download Mode e backup do SEU boot atual.
+- Backup dos dados pessoais fora do aparelho.
+- Entender que o boot fornecido inclui Magisk.
+
+IMPORTANTE SOBRE ROOT:
+O kernel não exige Magisk por si só. Porém, a imagem de boot deste pacote
+contém o ramdisk com Magisk do aparelho de referência. Ela não é uma versão
+sem root. Uma imagem específica sem Magisk ainda não foi disponibilizada
+nem testada. Não instalar este pacote esperando manter um boot sem Magisk.
+
+Não se presume compatibilidade com o sistema Samsung original: este guia
+documenta o ambiente GSI testado. Desbloquear o bootloader pela primeira vez
+e preparar um aparelho original não fazem parte do procedimento validado
+desta Release.
+
+4. CONFERIR O APARELHO COM ADB
+
+Ative depuração USB e aceite a autorização do computador.
+Nos comandos abaixo, pressupõe-se que platform-tools foi extraído em:
+%USERPROFILE%\Downloads\platform-tools-latest-windows\platform-tools
+Se sua pasta tiver outro nome, ajuste somente o caminho.
+
+CMD:
+
+cd /d "%USERPROFILE%\Downloads\platform-tools-latest-windows\platform-tools"
+adb devices
+adb shell "echo VENDOR_MODEL; getprop ro.product.vendor.model; echo BOOTLOADER; getprop ro.bootloader; echo VENDOR_BUILD; getprop ro.vendor.build.fingerprint; echo ABI; getprop ro.product.cpu.abilist; echo KERNEL; uname -a"
+
+No projeto, vendor.model = SM-A032M e bootloader = A032MUBS7CZA5.
+O sistema é 32 bits (armeabi-v7a/armeabi), embora o kernel compilado seja
+AArch64 com suporte COMPAT. "a64" na GSI não significa apps arm64.
+Se houver divergência de variante/firmware, não trate esta imagem como
+compatível apenas porque o aparelho se chama A03 Core.
+
+5. GUARDAR O SEU BOOT ATUAL (PARA QUEM JÁ TEM ROOT)
+
+CMD, dentro de platform-tools:
+
+adb shell "su -c 'dd if=/dev/block/by-name/boot of=/data/local/tmp/boot_antes_kernel.img bs=1048576'"
+adb pull /data/local/tmp/boot_antes_kernel.img
+certutil -hashfile boot_antes_kernel.img SHA256
+
+O comando lê a partição boot e grava uma cópia em arquivo; não grava sobre
+a partição. Verifique se terminou sem erros e guarde o arquivo no PC.
+No aparelho de referência, boot tem 67108864 bytes.
+
+Essa cópia não substitui backup dos dados nem das outras partições.
+Para restaurá-la pelo Odin, é necessário um TAR correto contendo boot.img;
+não renomeie um .img para .tar. Prepare e confira esse TAR antes do teste.
+
+AP_RESTAURAR_BOOT_ATUAL.tar do ZIP restaura o boot DO APARELHO DE REFERÊNCIA,
+não o estado anterior de todo leitor. Para outro usuário, não substitui seu
+próprio backup. Sem root, esse método de extração não funciona; a pessoa
+precisa de outra rota de backup/recuperação validada para seu ambiente.
+
+6. EXTRAIR E VERIFICAR O PACOTE DO KERNEL
+
+Coloque o ZIP em Downloads. CMD:
+
+cd /d "%USERPROFILE%\Downloads"
+certutil -hashfile "a03core-stock-baseline-20261013.zip" SHA256
+
+Compare com o SHA-256 informado na seção 2. Em seguida:
+
+powershell -NoProfile -Command "Expand-Archive -LiteralPath '.\a03core-stock-baseline-20261013.zip' -DestinationPath '.\a03core-stock-baseline' -Force"
+powershell -NoProfile -ExecutionPolicy Bypass -File ".\a03core-stock-baseline\verificar.ps1"
+
+Exigir a mensagem: TODOS OS HASHES OK.
+Se algum hash divergir ou a extração falhar, interrompa e baixe novamente.
+
+ARQUIVOS DE INSTALAÇÃO:
+AP_BOOT_STOCK_RECOMPILADO_TESTE.tar — instala somente o boot de teste.
+AP_RESTAURAR_BOOT_ATUAL.tar — restaura somente o boot da referência.
+
+Os demais arquivos são material de inspeção/compilação. NÃO carregar no
+Odin os módulos .ko, Image ou dt-reference-do-not-flash.
+O ZIP inclui DTB/DTBO gerados para referência, mas a imagem de teste usa
+o DTB original e não substitui a partição DTBO.
+
+7. INSTALAR SOMENTE O BOOT DE TESTE
+
+Antes de começar, tenha sua restauração preparada e confirme Download Mode.
+
+Se Android/ADB estiver funcionando, dentro de platform-tools:
+adb reboot download
+
+Em bootloop, o procedimento comprovado pelo proprietário neste aparelho
+foi manter Power + Volume Menos pressionados continuamente até aparecer
+Download Mode. Não se afirma que essa sequência vale para todas as variantes
+ou estados. Se surgir uma tela intermediária, leia o que ela solicita; não
+confunda continuar ao Download Mode com desbloquear/rebloquear o bootloader.
+
+No Odin:
+1) Conecte o telefone e confirme reconhecimento em ID:COM.
+2) Em AP, selecione AP_BOOT_STOCK_RECOMPILADO_TESTE.tar.
+3) BL, CP, CSC e USERDATA devem ficar vazios.
+4) Re-Partition, Nand Erase e Flash Lock devem ficar desmarcados.
+5) Não carregar PIT, vbmeta, super.img ou firmware completo.
+6) O teste do projeto usou Auto Reboot e F. Reset Time marcados.
+7) Clique Start e aguarde PASS. Não interrompa a transferência.
+8) Aguarde o sistema iniciar.
+
+PASS significa que a gravação concluiu; não comprova que Android iniciou.
+Este pacote não foi feito para formatar userdata.
+
+AVB:
+O projeto preservou o rodapé do boot já modificado por Magisk.
+Nenhuma flag de vbmeta foi alterada para este teste. A inicialização foi
+confirmada nesse ambiente; não extrapolar essa aceitação para outro firmware.
+Uma tentativa anterior de alterar vbmeta provocou bootloop e foi revertida.
+Não use o antigo pacote experimental de vbmeta como requisito desta Release.
+
+8. CONFIRMAR O KERNEL E TESTAR
+
+Depois de chegar à tela inicial, CMD:
+
+cd /d "%USERPROFILE%\Downloads\platform-tools-latest-windows\platform-tools"
+adb devices
+adb shell getprop sys.boot_completed
+adb shell cat /proc/version
+adb shell uname -a
+adb shell su -c id
+adb shell lsmod
+
+sys.boot_completed deve retornar 1.
+Release do kernel: 4.14.199-27418755-abA032MUBS7CZA5.
+A recompilação fornecida mostra root@02bf778456de, build #1 e data:
+Tue Oct 13 09:55:43 PDT 2026.
+Esse identificador distingue o kernel recompilado do original Samsung,
+embora o release tenha sido mantido para compatibilidade de módulos.
+
+su -c id deve mostrar uid=0 e contexto Magisk, após autorização quando pedida.
+lsmod mostra módulos carregados; isso não substitui testes de seus recursos.
+
+Teste toque/tela, Wi-Fi, Bluetooth, chamadas/dados, áudio, câmeras,
+carregamento e apagar/acender a tela. Depois:
+adb reboot
+
+Confirme nova inicialização. Para avaliar estabilidade e desempenho, registre
+também uso prolongado e carga em condições comparáveis. Não há percentual
+de ganho medido para este kernel de referência.
+
+9. RESTAURAÇÃO EM CASO DE FALHA
+
+Se houver reinicializações repetidas:
+1) Retorne ao Download Mode pela rota previamente confirmada.
+2) Abra Odin e coloque em AP o TAR de restauração apropriado.
+3) Mantenha outras entradas vazias e Re-Partition/Nand Erase desmarcados.
+4) Grave, aguarde PASS e confira a inicialização.
+
+Para o aparelho do projeto, o arquivo é AP_RESTAURAR_BOOT_ATUAL.tar.
+Para outro leitor, use o pacote preparado do seu próprio boot compatível.
+
+Não faça wipe, alteração de vbmeta ou flash de outras partições por tentativa.
+Se Odin não reconhecer o aparelho, não prossiga com gravações.
+A restauração de boot não recupera indiscriminadamente todas as partições.
+
+10. GSI: O QUE É NECESSÁRIO E O QUE ESTA RELEASE NÃO ENTREGA
+
+A GSI utilizada é crDroid 10.13 a64_bvN Vanilla (.img.xz), NÃO arm64.
+Para baixar e extrair, com 7-Zip instalado no caminho padrão, CMD:
+
+cd /d "%USERPROFILE%\Downloads"
+curl.exe -fL "https://github.com/naz664/crDroid_gsi/releases/download/v2025.03.08/crDroid-10.13-a64_bvN-Unofficial.img.xz" -o "crDroid-10.13-a64_bvN-Unofficial.img.xz"
+"%ProgramFiles%\7-Zip\7z.exe" t "crDroid-10.13-a64_bvN-Unofficial.img.xz"
+"%ProgramFiles%\7-Zip\7z.exe" x "crDroid-10.13-a64_bvN-Unofficial.img.xz" -o"crdroid-extraida"
+certutil -hashfile "crdroid-extraida\crDroid-10.13-a64_bvN-Unofficial.img" SHA256
+
+O teste/extração deve terminar sem erros e o hash da .img deve coincidir com
+a seção 2. Conferir esse arquivo não autoriza instalá-lo diretamente no Odin.
+
+No projeto, o aparelho usa partições dinâmicas dentro de super, e a GSI
+foi integrada a uma imagem super preservando os componentes do ambiente
+existente (vendor/product/system_ext). A Release do kernel NÃO contém esse
+super.img nem um pacote universal para instalar a GSI.
+
+Para reproduzir a montagem, são necessários:
+- layout e tamanho reais de super do aparelho;
+- GSI íntegra e da arquitetura correta;
+- vendor, product e system_ext compatíveis e com procedência identificada;
+- ambiente Linux x86_64 ou WSL e ferramentas lpmake/lpdump/lpunpack;
+- backup/recuperação e empacotamento Odin validados para o destino.
+
+Registro e script:
+https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/blob/main/docs/montagem-super-crdroid-validada.md
+https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/blob/main/scripts/montar-super-crdroid.sh
+
+O script usa hashes específicos do projeto e deve recusar entradas diferentes.
+Não contorne a conferência só para fazê-lo aceitar outros arquivos.
+Os documentos antigos contêm estados intermediários; consulte os registros
+de estado funcional e do incidente AVB para a sequência efetivamente testada.
+
+Para quem parte do sistema original: ainda falta um pacote de GSI/super e
+um procedimento integral revisado para esse ponto de partida. Portanto,
+este arquivo não inventa comandos de flash para completar essa lacuna.
+Não usar "fastboot flash system" ou gravar a GSI bruta como AP por analogia
+com outro dispositivo.
+
+11. FUTURAS VERSÕES
+
+Este kernel é a referência sem OC.
+CPU 1,8/1,4 GHz, GPU 600 MHz e tensões propostas são objetivos experimentais,
+não recursos desta Release. Uma versão sem Magisk também requer outro boot
+preparado e validado. Cada pacote futuro deve identificar firmware, ROM,
+dependências, testes realizados e forma de restauração.
