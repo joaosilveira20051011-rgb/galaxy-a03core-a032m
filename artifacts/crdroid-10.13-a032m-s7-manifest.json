@@ -1,0 +1,30 @@
+{
+  "archive": "AP_crDroid_10.13_A032M_S7_EXPERIMENTAL.tar.gz",
+  "size": 1244021854,
+  "sha256": "fd4181ecdff5e6136fe5d059c8cad511c9200ee267fd8e6ae1f740b356101d3e",
+  "parts": [
+    {
+      "name": "AP_crDroid_10.13_A032M_S7_EXPERIMENTAL.tar.gz.001",
+      "size": 314572800,
+      "sha256": "92233420154d1b1e340012487b49a861d08ce752ad83f52b6ef96880d58c8e5f"
+    },
+    {
+      "name": "AP_crDroid_10.13_A032M_S7_EXPERIMENTAL.tar.gz.002",
+      "size": 314572800,
+      "sha256": "07d279c3d98b120918e9fb35222a0d916d389ba10a93e991b8fec8a9b3473b9c"
+    },
+    {
+      "name": "AP_crDroid_10.13_A032M_S7_EXPERIMENTAL.tar.gz.003",
+      "size": 314572800,
+      "sha256": "2f45cf9ec0294fc8c9e7a150d994130a5994fe77c8c0156998ecb0c8f1bccf82"
+    },
+    {
+      "name": "AP_crDroid_10.13_A032M_S7_EXPERIMENTAL.tar.gz.004",
+      "size": 300303454,
+      "sha256": "59ee4447c6f48350b2e4853f022b2e7887f90a866e045faabffb88e6dcc36a62"
+    }
+  ],
+  "status": "offline validated; device untested",
+  "tar_size": 3304069120,
+  "tar_sha256": "8bdc19cfb7105f41ac5a5282b03546c84a4540d42e3aab67c531a0e8d1bd2dd9"
+}
