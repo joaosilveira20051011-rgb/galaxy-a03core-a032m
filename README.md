@@ -1,93 +1,76 @@
-> **Atualização posterior — 2026-10-13:** a base oficial foi obtida e verificada; o kernel stock foi realmente compilado. Configuração idêntica e251 CRCs dos cinco módulos do vendor correspondentes. Pacote experimental de boot preparado, teste físico pendente. O boot enviado **contém rodapé AVBf**, preservado com a condição de hash já existente no boot Magisk. [Resultado e limitações](./docs/kernel-stock-compilado-2026-10-13.md). As menções abaixo a download/compilação pendentes registram a etapa anterior e foram superadas por esse relatório.
+# Galaxy A03 Core SM-A032M — crDroid e kernel próprio
 
-# Galaxy A03 Core — A032M S7
+Projeto experimental para SM-A032M, firmware **A032MUBS7CZA5 / bootloader S7**, SoC Unisoc SC9863A. O objetivo é documentar uma customização reproduzível, com fontes, patches, arquivos conferidos e resultados reais. Não se presume compatibilidade com SM-A032F, SM-A035, outros firmwares ou ROMs.
 
-Projeto experimental de customização do Galaxy A03 Core SM-A032M S7. A crDroid 10.13 a64 Vanilla iniciou após restaurar o vbmeta original; o proprietário relatou funcionamento normal dos testes básicos. A próxima etapa é compilar um kernel próprio a partir das fontes compatíveis.
+## Comece aqui
 
-## Aparelho e base confirmados
+1. [Guia público e downloads](docs/GUIA-PUBLICO-A03CORE.md).
+2. [Tutorial do kernel de referência](docs/TUTORIAL_A03CORE_STOCK_v0.1.txt).
+3. [Tutorial do OC2 térmico](docs/TUTORIAL-OC2-THERMAL.md).
+4. [Releases e arquivos efetivamente publicados](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases).
 
-- Vendor/modelo: SM-A032M; a GSI apresenta SM-A032F.
-- Bootloader: A032MUBS7CZA5; modem: A032MUBS7CZA1.
-- Sistema atual: crDroidAndroid-14.0-20250307-v10.13 (a64_bvN Vanilla), Android 14.
-- Sistema anterior: LineageOS 21.0-20250125-UNOFFICIAL-a3core.
-- Sistema e vendor: armeabi-v7a/armeabi (32 bits).
-- Kernel: 4.14.199-27418755-abA032MUBS7CZA5; configuração ARM64 com COMPAT, PSI, ZRAM, LZ4 e MODVERSIONS.
-- Root: Magisk 30.7; nenhum módulo listado.
-- GSI escolhida: crDroid 10.13 a64_bvN Vanilla, release v2025.03.08 de naz664.
+A imagem de boot dos pacotes preserva o **ramdisk com Magisk do aparelho de referência**. Kernel e root são coisas diferentes; estes boots não foram entregues como versão sem root.
 
-## Estado do trabalho
+## Estado atual — 13/10/2026
 
-1. Identificação por ADB concluída.
-2. Boot e DTBO extraídos e inspecionados; configuração do kernel recuperada.
-3. Cópia de super concluída no computador do proprietário.
-4. Vendor, product e system_ext recebidos; ZIP do vendor passou na verificação CRC. Assinaturas ext4 reconhecidas nas três imagens.
-5. Super montada, extraída novamente e conferida por hashes; Odin reportou PASS.
-6. Vbmeta principal com flags 3 causou bootloop no conjunto testado; após restaurar somente o backup original, o usuário relatou inicialização e ADB confirmou sys.boot_completed=1.
-7. Root Magisk 30.7 preservado; nenhum módulo. Kernel original e zRAM de aproximadamente 2,5 GiB mantidos.
-8. Funções básicas: usuário relatou tudo normal; isso não substitui testes de estabilidade prolongados.
-9. Kernel próprio: fontes/configuração em investigação; nenhuma nova compilação ou instalação confirmada.
-10. Nenhum ganho de desempenho medido ou prometido.
+| Etapa | Resultado real |
+|---|---|
+| crDroid 10.13 a64 Vanilla / Android 14 | Instalado e iniciado pelo proprietário |
+| Kernel de referência Samsung S7 recompilado | Inicialização confirmada; ZIP disponível na Release |
+| OC1: CPU lenta 1,4 GHz / rápida 1,8 GHz / GPU 600 MHz | Boot e reinicialização confirmados; leitura do registrador GPLL 600 MHz documentada |
+| AnTuTu informado pelo proprietário | Total 137059; CPU 46901, GPU 16145, MEM 47347, UX 26666; execução relatada normal |
+| OC2: controle adicional pela placa | Compilação e boot confirmados; sensor válido; máximos CPU 1,4/1,8 GHz observados |
+| Redução/liberação física do OC2 em 55/60 °C | Ainda não validada sob carga nos limites |
+| Estabilidade prolongada / ganhos versus referência | Ainda não comprovados |
+| Tuning de RAM/ZRAM/I/O | Planejado; nenhum módulo de tuning entregue |
+| GApps | LiteGapps Core ARM Android 14 recomendado; funcionamento ainda não confirmado neste projeto |
 
-## Metadados de super
+O resultado AnTuTu é um relato de uma execução. Não demonstra ganho percentual de OC nem estabilidade prolongada.
 
-- Tamanho físico: 3303014400 bytes.
-- Metadata version: 10.0; máximo: 65536 bytes; slots: 2.
-- Grupo main: máximo 3298820096 bytes.
-- Partições: system, vendor, product, system_ext; readonly.
-- O vendor e os metadados devem ser conferidos antes de empacotar uma substituição.
+## Downloads
 
-## SHA-256 das cópias
+- [Kernel de referência stock-baseline-v0.1](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/tag/stock-baseline-v0.1): contém ZIP e tutorial.
+- OC1 e OC2: artefatos reais produzidos e entregues ao proprietário; **ainda aguardam anexação às Releases deste GitHub**. Não existem links públicos de download confirmados para eles nesta atualização.
+- [GSI original crDroid 10.13 a64 Vanilla](https://github.com/naz664/crDroid_gsi/releases/download/v2025.03.08/crDroid-10.13-a64_bvN-Unofficial.img.xz), do mantenedor naz664.
+- [LiteGapps Core ARM Android 14](https://downloads.sourceforge.net/project/litegapps/litegapps/arm/34/core/2026-10-01/LiteGapps-core-arm-14.0-20261001-official.zip): link corrigido e abertura do ZIP verificada; instalação/funcionamento no A03 não confirmados.
 
-| Arquivo | Bytes | SHA-256 |
-|---|---:|---|
-| boot_atual.img | 67108864 | 575035d10db48692ed4c066da83a78b44b367a57d5670c3a78330ac157e497b5 |
-| dtbo_atual.img | 8388608 | 44e4a901747134c74745379cde7fa762734b03d5d7b3e97a44c63cf4a224a75f |
-| vendor_atual.img | 407756800 | 6594a216453065b3b02efba11a20b2f12c6b6397e52e4014c1f3dbc0355e1451 |
-| product_atual.img | 2621440 | 88808d75976626d278006e97bbe09e0a5e75601c874df1d4e75900712b5a5075 |
-| system_ext_atual.img | 2621440 | f69cae008ab17cb767e535df6e331f6c0659c710c4d92782ebf917a3ddc7cfad |
-| super_atual.img | 3303014400 | 4b2c2545989492d41040050cd70df01ab47d0836dfd9fa3b5bfebaf0d27aa605 |
+**a64 significa ARM32/Binder64**, não arm64. O sistema usa armeabi-v7a/armeabi; kernel AArch64 com COMPAT.
 
-Hash de super informado pelo comando no aparelho; os demais calculados a partir dos arquivos recebidos. As cópias não incluem userdata e não constituem backup completo.
+## OC2 térmico
 
-## Fontes
+| Sensor de referência | CPU | GPU |
+|---|---|---|
+| board-thmzone, termistor da placa | Limita a 1100/1500 MHz em >=55 °C; libera abaixo de 53 °C | Limita a 384 MHz em >=60 °C; libera abaixo de 58 °C |
 
-- https://github.com/naz664/crDroid_gsi/releases/tag/v2025.03.08
-- https://github.com/IverCoder/android_kernel_samsung_a3core
-- https://github.com/almondnguyen/android_kernel_samsung_a3core
-- https://github.com/physwizz/a032m-T-u3
-- https://github.com/MarsXZ-Official/LineageOs-Samsung-Galaxy-A03Core-gsi-adaptation
+As frequências máximas OC1 continuam disponíveis fora da limitação adicional. As proteções térmicas internas, tabelas quentes, bateria/carregamento e thermald foram preservados. board-thmzone não foi demonstrado equivalente ao quiet_therm do Redmi 8A Dual.
 
-## Organização
+O status somente leitura está em /sys/kernel/a03core_thermal/status. A GPU recebe teto interno no devfreq; max_freq pode continuar mostrando 600 MHz. Frequência efetiva e atuação térmica precisam de teste físico.
 
-Scripts, documentação e alterações de código serão versionados em Git. Binários grandes poderão ser associados a Releases após conferência do conteúdo e das condições de distribuição. Não publicar identificadores pessoais, credenciais ou partições EFS/NV. Arquivos de outras variantes não são automaticamente compatíveis com A032M/S7.
+## Código e evidências
 
-## Objetivo público e reprodução
+- [Base oficial e toolchain](docs/kernel-base-oficial-s7.md).
+- [Compilação OC1](docs/kernel-oc1-1800-1400-600-compilacao.md).
+- [Patch OC1](kernel/patches/OC1-1800-1400-600.patch).
+- [Patch OC2 completo](kernel/patches/OC2-board-thermal-55-60.patch).
+- [Relatório OC2](docs/kernel-oc2-thermal-compilado-e-validacao.md).
+- [Boot OC2 e auditoria da ROM](docs/kernel-oc2-boot-confirmado-auditoria-rom.md).
+- [Checksums OC2](artifacts/oc2-thermal-sha256.json).
+- [Primeiro AnTuTu OC1](docs/kernel-oc1-antutu-primeiro-resultado.md).
 
-Este repositório pretende permitir que outras pessoas reproduzam a customização, com créditos aos projetos originais, scripts de preparação, versões das ferramentas, hashes, instruções de recuperação e resultados de testes. Compatibilidade será registrada por modelo e firmware; não se presume suporte a qualquer A03 Core.
+As fontes completas do kernel dependem da base Samsung identificada no relatório, da atualização S7 e dos patches. Este repositório contém configuração/scripts/patches; não confundir o ZIP automático “Source code” do GitHub com uma árvore completa pronta para compilar.
 
-Estado: primeiro boot da crDroid confirmado neste A032M S7, com vbmeta ORIGINAL. O AP experimental que contém vbmeta com flags 3 é um artefato de teste malsucedido e NÃO deve ser repetido como receita de instalação. Não presumir compatibilidade com outros firmwares.
+## GSI e recuperação
 
-### Download escolhido
+A GSI foi integrada em super preservando vendor/product/system_ext do ambiente auditado. Não foi publicado um instalador universal partindo do firmware original. Consulte [montagem de super](docs/montagem-super-crdroid-validada.md) e [script](scripts/montar-super-crdroid.sh).
 
-- Mantenedor original: naz664.
-- Release: https://github.com/naz664/crDroid_gsi/releases/tag/v2025.03.08
-- Arquivo: crDroid-10.13-a64_bvN-Unofficial.img.xz
-- Download: https://github.com/naz664/crDroid_gsi/releases/download/v2025.03.08/crDroid-10.13-a64_bvN-Unofficial.img.xz
-- Tamanho comprimido informado pela API da release: 779310104 bytes.
-- Variante a64 (ARM32/Binder64), Vanilla, sem superuser PHH. Não confundir com arm64.
-- Imagem descompactada: 2089295872 bytes; SHA-256 ae15ae5541e51509e574eab7cf6c71cae60d5a69483816a7f8773579c729d1d6.
-- Primeiro boot confirmado com vbmeta original, kernel/DTBO originais; validação prolongada pendente.
+O experimento antigo com flags de vbmeta provocou bootloop; a restauração do vbmeta original permitiu inicializar. **Esse experimento não é requisito nem receita de instalação.** Os kernels posteriores preservam o ambiente AVB já usado no projeto.
 
-### Primeira etapa no Windows
+Não publicar serial, IMEI, credenciais, EFS/NV nem backups pessoais. O TAR de restauração fornecido pertence à referência; outro usuário deve conservar seu próprio backup compatível.
 
-Baixar o arquivo original, guardar os backups separadamente e extrair o .xz com 7-Zip (https://www.7-zip.org/). A saída deve ser uma imagem .img. Não gravar antes de verificar tamanho, conteúdo e pacote preparado para o firmware de destino.
+## Telegram
 
-## Registros atuais
+Grupo de suporte em preparação. O link ainda não foi informado para publicação. Não há confirmação de postagem no Telegram nesta atualização.
 
-- [Estado funcional e resultados](docs/estado-funcional-2026-10-13.md)
-- [Montagem e hashes de super](docs/montagem-super-crdroid-validada.md)
-- [Teste de gravação Odin](docs/teste-odin-2026-10-13.md)
-- [Incidente de bootloop](docs/bootloop-primeiro-teste.md)
-- [Base oficial para o kernel](docs/kernel-base-oficial-s7.md)
+## Créditos
 
-Para este aparelho, o proprietário confirmou entrada em Download Mode mantendo Power + Volume para baixo até aparecer o modo. Não tratar as sequências anteriores de troca de botões como procedimento validado neste teste.
+Samsung Open Source Release Center (base do kernel); naz664 (GSI crDroid); Magisk e LiteGapps (projetos respectivos). Resultados físicos informados pelo proprietário. Links de terceiros e compatibilidade devem ser conferidos antes de reproduzir o procedimento.
