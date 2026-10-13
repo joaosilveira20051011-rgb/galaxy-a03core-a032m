@@ -26,10 +26,14 @@ A imagem de boot dos pacotes preserva o **ramdisk com Magisk do aparelho de refe
 | OC2: controle adicional pela placa | Compilação e boot confirmados; sensor válido; máximos CPU 1,4/1,8 GHz observados |
 | Redução/liberação física do OC2 em 55/60 °C | Ainda não validada sob carga nos limites |
 | Estabilidade prolongada / ganhos versus referência | Ainda não comprovados |
-| Tuning de RAM/ZRAM/I/O | Planejado; nenhum módulo de tuning entregue |
-| GApps | LiteGapps Core ARM Android 14 recomendado; funcionamento ainda não confirmado neste projeto |
+| Perfil de memória via Magisk | ZRAM 2 GiB, lzo-rle, swappiness 70, page-cluster 1, watermark_scale_factor 5; valores confirmados após reboot. Ganhos não medidos |
+| GApps | LiteGapps Core ARM Android 14 instalado segundo módulo e processos coletados; funcionamento completo não auditado |
 
 O resultado AnTuTu é um relato de uma execução. Não demonstra ganho percentual de OC nem estabilidade prolongada.
+
+## Perfil permanente de memória
+
+[Tutorial, downloads e reversão: A03 Memória 2 GiB](docs/TUTORIAL-MEMORIA-A03-2GIB.md). Módulo Magisk com valores confirmados após reiniciar no aparelho de referência. Arquivos disponíveis no repositório, sem novo asset na Release. Nenhum ganho de desempenho foi medido.
 
 ## Downloads
 
