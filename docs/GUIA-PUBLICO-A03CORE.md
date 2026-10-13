@@ -26,6 +26,8 @@ Com vários aparelhos, usar adb -s SERIAL_DO_A03 em cada comando, substituindo o
 Link da Release de referência: https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/tag/stock-baseline-v0.1 (usar esta URL absoluta se o link relativo acima não abrir).
 
 ## Sequência de leitura
+
+**[Instalação da GSI com bootloader desbloqueado](TUTORIAL-GSI-BOOTLOADER-DESBLOQUEADO.md)**: procedimento detalhado para o ambiente correspondente, com backup próprio, preparação e recuperação. A rota documentada requer root para extração; divergências de firmware/partições exigem análise.
 1. [Tutorial de referência](TUTORIAL_A03CORE_STOCK_v0.1.txt): requisitos, backup, Odin e recuperação.
 2. [GSI e super](montagem-super-crdroid-validada.md): integração usada, hashes e dependências.
 3. [Tutorial OC2](TUTORIAL-OC2-THERMAL.md): instalação de boot no ambiente correspondente e diagnóstico.
