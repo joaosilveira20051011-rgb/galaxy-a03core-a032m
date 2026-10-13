@@ -1,0 +1,32 @@
+[
+  {
+    "module": "incrementalfs",
+    "imported_symbols": 133,
+    "crc_mismatches": [],
+    "vermagic": "4.14.199-27418755-abA032MUBS7CZA5 SMP preempt mod_unload modversions aarch64"
+  },
+  {
+    "module": "kheaders",
+    "imported_symbols": 5,
+    "crc_mismatches": [],
+    "vermagic": "4.14.199-27418755-abA032MUBS7CZA5 SMP preempt mod_unload modversions aarch64"
+  },
+  {
+    "module": "trace_irqsoff_bytedancy",
+    "imported_symbols": 42,
+    "crc_mismatches": [],
+    "vermagic": "4.14.199-27418755-abA032MUBS7CZA5 SMP preempt mod_unload modversions aarch64"
+  },
+  {
+    "module": "trace_noschedule_bytedancy",
+    "imported_symbols": 41,
+    "crc_mismatches": [],
+    "vermagic": "4.14.199-27418755-abA032MUBS7CZA5 SMP preempt mod_unload modversions aarch64"
+  },
+  {
+    "module": "trace_runqlat_bytedancy",
+    "imported_symbols": 30,
+    "crc_mismatches": [],
+    "vermagic": "4.14.199-27418755-abA032MUBS7CZA5 SMP preempt mod_unload modversions aarch64"
+  }
+]
