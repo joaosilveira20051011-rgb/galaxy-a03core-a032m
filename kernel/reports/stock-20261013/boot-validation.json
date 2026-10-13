@@ -1,0 +1,14 @@
+{
+  "original_boot_sha256": "575035d10db48692ed4c066da83a78b44b367a57d5670c3a78330ac157e497b5",
+  "candidate_boot_sha256": "ee67577d2078d40b777669e2c0e8471765aee8d28583247a1dff087fcde10508",
+  "boot_size": 67108864,
+  "header_version": 2,
+  "page_size": 2048,
+  "kernel_size": 19884048,
+  "ramdisk_preserved": true,
+  "dtb_preserved": true,
+  "footer_preserved": true,
+  "header_sha1_recomputed": true,
+  "hardware_boot_test": "NOT EXECUTED",
+  "avb_note": "Existing Magisk boot contains AVB footer with original signed descriptor whose content digest already differs from rooted payload. Preserved unchanged. No new vendor signature claimed. Acceptance of candidate requires physical test."
+}
