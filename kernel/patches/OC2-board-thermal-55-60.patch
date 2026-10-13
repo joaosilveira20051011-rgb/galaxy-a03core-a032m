@@ -1,0 +1,212 @@
+diff --git a/drivers/devfreq/devfreq.c b/drivers/devfreq/devfreq.c
+index b05e6a1..74a295c 100755
+--- a/drivers/devfreq/devfreq.c
++++ b/drivers/devfreq/devfreq.c
+@@ -26,6 +26,7 @@
+ #include <linux/printk.h>
+ #include <linux/hrtimer.h>
+ #include <linux/of.h>
++#include <linux/a03core_thermal.h>
+ #include "governor.h"
+ 
+ static struct class *devfreq_class;
+@@ -261,6 +262,16 @@ int update_devfreq(struct devfreq *devfreq)
+ 		freq = devfreq->max_freq;
+ 		flags |= DEVFREQ_FLAG_LEAST_UPPER_BOUND; /* Use LUB */
+ 	}
++	/* Board cap overrides a conflicting user minimum only on this GPU. */
++	if (devfreq->dev.parent &&
++	    !strcmp(dev_name(devfreq->dev.parent), "60000000.gpu")) {
++		unsigned long cap = a03core_gpu_thermal_cap();
++
++		if (cap && freq > cap) {
++			freq = cap;
++			flags |= DEVFREQ_FLAG_LEAST_UPPER_BOUND;
++		}
++	}
+ 
+ 	if (devfreq->profile->get_cur_freq)
+ 		devfreq->profile->get_cur_freq(devfreq->dev.parent, &cur_freq);
+diff --git a/drivers/thermal/Makefile b/drivers/thermal/Makefile
+index d6f43c2..bd3343d 100755
+--- a/drivers/thermal/Makefile
++++ b/drivers/thermal/Makefile
+@@ -12,6 +12,7 @@ endif
+ 
+ GCOV_PROFILE			= ${CONFIG_SPRD_THERMAL_GCOV}
+ obj-$(CONFIG_THERMAL)		+= thermal_sys.o
++obj-$(CONFIG_THERMAL)		+= a03core_thermal.o
+ thermal_sys-y			+= thermal_core.o thermal_sysfs.o \
+ 					thermal_helpers.o
+ 
+diff --git a/drivers/thermal/a03core_thermal.c b/drivers/thermal/a03core_thermal.c
+new file mode 100644
+index 0000000..1bf7399
+--- /dev/null
++++ b/drivers/thermal/a03core_thermal.c
+@@ -0,0 +1,127 @@
++// SPDX-License-Identifier: GPL-2.0
++/* Additional board-temperature ceiling; existing SoC controls stay intact. */
++#include <linux/a03core_thermal.h>
++#include <linux/cpufreq.h>
++#include <linux/init.h>
++#include <linux/kernel.h>
++#include <linux/kobject.h>
++#include <linux/of.h>
++#include <linux/sysfs.h>
++#include <linux/thermal.h>
++#include <linux/workqueue.h>
++
++static bool enabled;
++static int cpu_limited = 1, gpu_limited = 1;
++static int board_temp, sensor_error = -EAGAIN;
++static bool sampled;
++static struct delayed_work board_work;
++static struct kobject *thermal_kobj;
++
++unsigned long a03core_gpu_thermal_cap(void)
++{
++	return READ_ONCE(enabled) && READ_ONCE(gpu_limited) ? 384000000 : 0;
++}
++
++static int board_cpufreq_notifier(struct notifier_block *nb,
++				 unsigned long event, void *data)
++{
++	struct cpufreq_policy *policy = data;
++	unsigned int cap;
++
++	if (event != CPUFREQ_ADJUST || !READ_ONCE(cpu_limited))
++		return NOTIFY_DONE;
++	cap = cpumask_test_cpu(4, policy->related_cpus) ? 1500000 : 1100000;
++	cpufreq_verify_within_limits(policy, policy->cpuinfo.min_freq, cap);
++	return NOTIFY_OK;
++}
++
++static struct notifier_block board_cpufreq_nb = {
++	.notifier_call = board_cpufreq_notifier,
++	/* Run after existing cooling; retain any lower limit it applies. */
++	.priority = -100,
++};
++
++static void board_thermal_work(struct work_struct *work)
++{
++	struct thermal_zone_device *tz;
++	int temp = 0, err, cpu_next, gpu_next;
++	int old_error = READ_ONCE(sensor_error);
++	bool cpu_changed;
++
++	tz = thermal_zone_get_zone_by_name("board-thmzone");
++	err = IS_ERR(tz) ? PTR_ERR(tz) : thermal_zone_get_temp(tz, &temp);
++	/* A missing/invalid sensor keeps conservative limits. */
++	if (!err && (temp < -40000 || temp > 150000))
++		err = -ERANGE;
++	WRITE_ONCE(sensor_error, err);
++	if (err) {
++		cpu_next = 1;
++		gpu_next = 1;
++	} else {
++		WRITE_ONCE(board_temp, temp);
++		cpu_next = a03core_thermal_latch(READ_ONCE(cpu_limited), temp,
++					       55000, 53000);
++		gpu_next = a03core_thermal_latch(READ_ONCE(gpu_limited), temp,
++					       60000, 58000);
++	}
++	cpu_changed = cpu_next != READ_ONCE(cpu_limited);
++	if (!sampled || cpu_changed || err != old_error ||
++	    gpu_next != READ_ONCE(gpu_limited))
++		pr_info("A03CORE_OC2 board=%d error=%d cpu_limit=%d gpu_limit=%d\n",
++			temp, err, cpu_next, gpu_next);
++	WRITE_ONCE(cpu_limited, cpu_next);
++	WRITE_ONCE(gpu_limited, gpu_next);
++	/* The notifier also handles subsequent policy updates. */
++	if (!sampled || cpu_changed) {
++		cpufreq_update_policy(0);
++		cpufreq_update_policy(4);
++	}
++	sampled = true;
++	queue_delayed_work(system_freezable_wq, &board_work,
++			   msecs_to_jiffies(1000));
++}
++
++static ssize_t status_show(struct kobject *kobj, struct kobj_attribute *attr,
++			   char *buf)
++{
++	return scnprintf(buf, PAGE_SIZE,
++		"version=OC2\nboard_temp_mC=%d\nsensor_error=%d\n"
++		"cpu_limited=%d\ngpu_limited=%d\n"
++		"cpu_on_mC=55000\ncpu_release_below_mC=53000\n"
++		"gpu_on_mC=60000\ngpu_release_below_mC=58000\n"
++		"cpu0_cap_kHz=1100000\ncpu4_cap_kHz=1500000\n"
++		"gpu_cap_Hz=384000000\n",
++		READ_ONCE(board_temp), READ_ONCE(sensor_error),
++		READ_ONCE(cpu_limited), READ_ONCE(gpu_limited));
++}
++
++static struct kobj_attribute status_attr = __ATTR_RO(status);
++
++static int __init a03core_thermal_init(void)
++{
++	int err;
++
++	if (!of_machine_is_compatible("sprd,sc9863a"))
++		return 0;
++	thermal_kobj = kobject_create_and_add("a03core_thermal", kernel_kobj);
++	if (!thermal_kobj)
++		return -ENOMEM;
++	err = sysfs_create_file(thermal_kobj, &status_attr.attr);
++	if (err)
++		goto put_kobj;
++	err = cpufreq_register_notifier(&board_cpufreq_nb,
++					CPUFREQ_POLICY_NOTIFIER);
++	if (err)
++		goto remove_file;
++	WRITE_ONCE(enabled, true);
++	INIT_DELAYED_WORK(&board_work, board_thermal_work);
++	queue_delayed_work(system_freezable_wq, &board_work, 0);
++	pr_info("A03CORE_OC2 board thermal controller registered\n");
++	return 0;
++remove_file:
++	sysfs_remove_file(thermal_kobj, &status_attr.attr);
++put_kobj:
++	kobject_put(thermal_kobj);
++	return err;
++}
++late_initcall(a03core_thermal_init);
+diff --git a/include/linux/a03core_thermal.h b/include/linux/a03core_thermal.h
+new file mode 100644
+index 0000000..970a10c
+--- /dev/null
++++ b/include/linux/a03core_thermal.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _LINUX_A03CORE_THERMAL_H
++#define _LINUX_A03CORE_THERMAL_H
++
++/* Values use millidegrees Celsius, not battery temperature. */
++static inline int a03core_thermal_latch(int active, int temp,
++				      int on, int off)
++{
++	return active ? temp >= off : temp >= on;
++}
++
++#ifdef CONFIG_THERMAL
++unsigned long a03core_gpu_thermal_cap(void);
++#else
++static inline unsigned long a03core_gpu_thermal_cap(void) { return 0; }
++#endif
++#endif
+diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
+index 9ff4498..cd4e437 100755
+--- a/kernel/gen_kheaders.sh
++++ b/kernel/gen_kheaders.sh
+@@ -7,7 +7,9 @@ set -e
+ sfile="$(readlink -f "$0")"
+ outdir="$(pwd)"
+ tarfile=$1
+-cpio_dir=$outdir/$tarfile.tmp
++# Keep staging outside output trees watched by host synchronization tools.
++cpio_dir=$(mktemp -d "${TMPDIR:-/tmp}/kernel-kheaders.XXXXXX")
++trap 'rm -rf "$cpio_dir"' EXIT
+ 
+ dir_list="
+ include/
