@@ -3,13 +3,19 @@
 ## Requisitos
 SM-A032M com ambiente A032MUBS7CZA5/S7 compatível, bootloader desbloqueado, GSI crDroid 10.13 a64 Vanilla e rota de recuperação confirmada. Boot distribuído preserva Magisk da referência. Outras variantes/firmwares e sistema Samsung original não foram validados.
 
-Download: [Releases do projeto](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases). O ZIP OC2 ainda aguarda anexação no momento desta documentação.
+Download: [Releases do projeto](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases). O ZIP OC2 foi publicado na Release existente. [Download direto](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/download/stock-baseline-v0.1/a03core-OC2-thermal-55-60-experimental.1.zip).
 
-Arquivo: a03core-OC2-thermal-55-60-experimental.zip
+Nome publicado no GitHub: a03core-OC2-thermal-55-60-experimental.1.zip. O sufixo .1 não altera o conteúdo. Os comandos abaixo salvam uma cópia com o nome usado no tutorial.
 SHA-256: 6889c22a7dd028cf455e445fec1ebfcc0b7b4eb66b823a09ce75f01977e35dda
 
 ## Conferir e extrair no Windows
-Salvar o ZIP em Downloads. No CMD:
+Baixar pelo link e salvar sem o sufixo .1, ou executar no CMD:
+
+```cmd
+curl.exe -fL "https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/download/stock-baseline-v0.1/a03core-OC2-thermal-55-60-experimental.1.zip" -o "%USERPROFILE%\Downloads\a03core-OC2-thermal-55-60-experimental.zip"
+```
+
+Depois conferir e extrair:
 
 ```cmd
 certutil -hashfile "%USERPROFILE%\Downloads\a03core-OC2-thermal-55-60-experimental.zip" SHA256
