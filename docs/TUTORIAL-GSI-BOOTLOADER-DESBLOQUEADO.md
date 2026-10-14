@@ -10,6 +10,10 @@ Este guia usa o caminho reproduzível com **root já funcional para obter o pró
 
 A montagem abaixo é estritamente conferida contra as entradas usadas no projeto. Se hashes/layout diferirem, o script deve parar: outro ambiente precisa de análise própria. Não remover a conferência para fazê-lo funcionar.
 
+## Downloads disponíveis
+
+A GSI está também [anexada à Release do projeto](https://github.com/joaosilveira20051011-rgb/galaxy-a03core-a032m/releases/download/stock-baseline-v0.1/crDroid-10.13-a64_bvN-Unofficial.img.xz). SHA-256 comprimido publicado pelo GitHub: `30dcb62d15c6da6a9a2e46e6b6f66383a1a15b5dcaeb877ed030bc8d051e8413`. Não é uma super nem AP do Odin; siga a montagem abaixo. [Central atual de materiais](CENTRAL-DOWNLOADS-E-INSTALACOES.md).
+
 ## 1. Ferramentas e espaço
 
 - Windows com platform-tools, 7-Zip, driver Samsung e Odin reconhecendo o aparelho.
