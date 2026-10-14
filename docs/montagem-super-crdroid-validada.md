@@ -1,3 +1,5 @@
+> **Registro histórico de preparação offline.** A GSI posteriormente iniciou no aparelho de referência. O AP antigo com vbmeta modificado provocou bootloop; use o [tutorial GSI atual](TUTORIAL-GSI-BOOTLOADER-DESBLOQUEADO.md) e a [central de downloads](CENTRAL-DOWNLOADS-E-INSTALACOES.md). Este arquivo não é a receita atual de instalação.
+
 # Montagem experimental — crDroid 10.13 / SM-A032M S7
 
 ## Estado
