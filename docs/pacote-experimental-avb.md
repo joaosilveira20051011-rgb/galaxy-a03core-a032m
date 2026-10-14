@@ -1,3 +1,5 @@
+> **Registro histórico, não receita atual de instalação.** O AP antigo com vbmeta modificado provocou bootloop e foi superado. Use o [tutorial GSI atual](TUTORIAL-GSI-BOOTLOADER-DESBLOQUEADO.md) e a [central de downloads](CENTRAL-DOWNLOADS-E-INSTALACOES.md); preserve o vbmeta compatível. Os resultados deste arquivo são da etapa em que foi escrito.
+
 # Pacote experimental crDroid 10.13 — A032M S7
 
 O pacote é preparado pelo projeto, sem exigir WSL ou montagem pelo usuário. A gravação e os testes físicos ainda não ocorreram.
