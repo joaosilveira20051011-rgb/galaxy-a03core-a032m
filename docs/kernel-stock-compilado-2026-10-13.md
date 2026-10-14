@@ -1,3 +1,5 @@
+> **Atualização posterior:** boot confirmado pelo proprietário; consulte [registro de boot](kernel-stock-boot-confirmado-2026-10-13.md) e [central atual](CENTRAL-DOWNLOADS-E-INSTALACOES.md). As menções abaixo a teste pendente descrevem o momento original da compilação, não o estado atual.
+
 # Referência stock S7 recompilada — teste físico pendente
 
 ## Resultado
