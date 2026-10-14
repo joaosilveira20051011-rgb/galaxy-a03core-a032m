@@ -64,6 +64,6 @@ Boots publicados preservam o ramdisk Magisk do aparelho de referência. Não sã
 
 ## Telegram e estado da distribuição
 Comunidade: https://t.me/A03CoreBrasilGSIKernel/1
-Os tópicos Comece aqui, Tutoriais e GSI e Downloads recebem o link deste índice; arquivos grandes são apontados pelos links verificados da Release/origem.
+Publicação deste índice nos tópicos Comece aqui, Tutoriais e GSI e Downloads: **pendente de reconexão da sessão Telegram em 14/10/2026**. As publicações anteriores de GSI/kernel/memória foram confirmadas; esta nova atualização não deve ser declarada enviada antes da conferência. Os arquivos principais estão acessíveis pelos links da Release/origem acima.
 A tentativa de anexar o ZIP OC1 separado ao Telegram falhou. A rota disponível para OC1 usa o AP dentro do ZIP OC2.
 A sessão GitHub no navegador não está autenticada e o conector utilizado não oferece edição/upload de Release. Por isso, esta auditoria atualiza o repositório e o Telegram, mas não altera o corpo da Release nem promete novos assets. A frase antiga “não inclui a GSI” no corpo é superada pela seção GSI e pelo asset .img.xz efetivamente anexado. O índice registra os arquivos reais e suas limitações.
