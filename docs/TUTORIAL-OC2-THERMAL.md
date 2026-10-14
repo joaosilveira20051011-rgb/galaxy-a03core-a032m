@@ -61,6 +61,6 @@ Esperado: sys.boot_completed=1, version=OC2, sensor_error=0. CPU limitada acima 
 A GPU usa teto interno: max_freq pode continuar mostrando 600 MHz. Observar cur_freq sob carga; não confundir tabela/máximo com frequência efetiva.
 
 ## Estado observado
-Boot confirmado pelo proprietário; numa coleta fria, máximos CPU 1400/1800 MHz e limites adicionais liberados. Acionamento/liberação física nos thresholds, estabilidade prolongada e ganho de FPS/autonomia ainda não comprovados. Nenhum tuning adicional instalado. Não provocar aquecimento artificial para testar.
+Boot confirmado pelo proprietário; numa coleta fria, máximos CPU 1400/1800 MHz e limites adicionais liberados. Acionamento/liberação física nos thresholds, estabilidade prolongada e ganho de FPS/autonomia ainda não comprovados. Atualização posterior: [perfil de memória](TUTORIAL-MEMORIA-A03-2GIB.md) instalado e valores confirmados após reboot. O histórico térmico acima não implica ganho medido desse perfil. Não provocar aquecimento artificial para testar.
 
 [Relatório técnico](kernel-oc2-thermal-compilado-e-validacao.md) e [auditoria da ROM](kernel-oc2-boot-confirmado-auditoria-rom.md).
